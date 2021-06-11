@@ -1,6 +1,7 @@
 package com.example.projectsem4.activities.repository
 
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
@@ -8,7 +9,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 
 class AuthUserRepository constructor (application: Application) {
@@ -75,14 +78,14 @@ class AuthUserRepository constructor (application: Application) {
             "email" to email
         )
 
-        print("/////////////////////////// the user is created in Firestore//////////////////////////////")
-        getuserid()?.let {
-            FirebaseFirestore.getInstance().collection(usertype).document(it).set(user).addOnSuccessListener { documentReference ->
-                Log.d("Ankit is great", "DocumentSnapshot added with ID: $documentReference")
+        print("/////////////////////////// the user is created in Firestore uid : ${Firebase.auth.currentUser?.uid} //////////////////////////////")
+        Firebase.auth.currentUser?.uid.let {
+            if (it != null) {
+                FirebaseFirestore.getInstance().collection(usertype).document(it)
+                    .set(user)
+                    .addOnSuccessListener { Log.d("ankit", "DocumentSnapshot successfully written!") }
+                    .addOnFailureListener { e -> Log.w("ankit", "Error writing document", e) }
             }
-                .addOnFailureListener { e ->
-                    Log.w("Ankit is great", "Error adding document", e)
-                }
         }
     }
 
@@ -101,7 +104,7 @@ class AuthUserRepository constructor (application: Application) {
     }
 
     private fun getuserid() : String? {
-        return firebaseAuth!!.uid
+        return FirebaseAuth.getInstance().currentUser?.uid
     }
 
 }

@@ -38,16 +38,21 @@ class ParentSignUpPage : AppCompatActivity() {
                 return@setOnClickListener
             else {
                 viewModel.signup( email , password)
-                viewModel.createUser(name , mobile , age , email, "parent")
+                print("/////////////////// create user was run ////////////////////////////////////")
 
-                viewModel.getUserLiveData()?.observe(this,
-                    { firebaseUser ->
-                        if (firebaseUser != null) {
-                            val intent = Intent(this@ParentSignUpPage , MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                    })
+                viewModel.getUserLiveData()?.observe(this , {
+
+                    viewModel.createUser(name , mobile , age , email, "parent")
+
+                    viewModel.getUserLiveData()?.observe(this,
+                        { firebaseUser ->
+                            if (firebaseUser != null) {
+                                val intent = Intent(this@ParentSignUpPage , MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                        })
+                })
 
 //                if(viewModel.getUserLiveData() != null) {
 //                    startActivity(Intent(this, MainActivity::class.java))

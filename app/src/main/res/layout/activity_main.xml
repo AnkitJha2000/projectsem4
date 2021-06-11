@@ -24,4 +24,16 @@
         android:id="@+id/mainlogout"
         />
 
+    <nl.joery.animatedbottombar.AnimatedBottomBar
+        android:id="@+id/main_bottom_bar"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:abb_selectedTabType="text"
+        app:abb_indicatorAppearance="round"
+        app:abb_indicatorMargin="16dp"
+        app:abb_indicatorHeight="4dp"
+        app:abb_tabs="@menu/tabs"
+        app:abb_selectedIndex="1" />
+
 </RelativeLayout>
