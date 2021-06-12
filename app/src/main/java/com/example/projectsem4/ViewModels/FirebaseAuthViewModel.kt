@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.projectsem4.adapters.UserAdapter
 import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.google.firebase.auth.FirebaseUser
 
@@ -13,12 +14,14 @@ class FirebaseAuthViewModel () : ViewModel() {
     private var authUserRepository: AuthUserRepository? = null
     private var userLiveData: MutableLiveData<FirebaseUser>? = null
     private var loggedOutLiveData: MutableLiveData<Boolean>? = null
+    private var userDataLiveData : MutableLiveData<UserAdapter>? = null
 
     constructor (application: Application) : this() {
         this.application = application
         this.authUserRepository = AuthUserRepository(application)
         this.userLiveData = authUserRepository!!.getUserLiveData()
         this.loggedOutLiveData = authUserRepository!!.getLoggedOutLiveData()
+        this.userDataLiveData = authUserRepository!!.getUserDataLiveData()
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -48,4 +51,9 @@ class FirebaseAuthViewModel () : ViewModel() {
     fun getLoggedOutLiveData(): MutableLiveData<Boolean>? {
         return loggedOutLiveData
     }
+
+    fun getUserDataLiveData() : MutableLiveData<UserAdapter>?{
+        return userDataLiveData
+    }
+
 }

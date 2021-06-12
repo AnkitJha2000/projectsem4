@@ -92,4 +92,8 @@ dependencies {
 
     // bottom nav
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
+
+    // circle image view
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 }

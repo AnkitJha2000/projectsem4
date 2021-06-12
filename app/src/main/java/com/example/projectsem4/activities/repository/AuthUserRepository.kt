@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
+import com.example.projectsem4.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -21,6 +22,7 @@ class AuthUserRepository constructor (application: Application) {
     private var userLiveData: MutableLiveData<FirebaseUser>? = MutableLiveData<FirebaseUser>()
     private var loggedOutLiveData: MutableLiveData<Boolean>? = MutableLiveData<Boolean>()
     private var userID : MutableLiveData<String>? = MutableLiveData<String>()
+    private var userDataLiveData : MutableLiveData<UserAdapter>? = MutableLiveData<UserAdapter>()
 
     init{
         if (firebaseAuth!!.currentUser != null) {
@@ -75,7 +77,8 @@ class AuthUserRepository constructor (application: Application) {
             "name" to name,
             "mobile" to mobile,
             "age" to age,
-            "email" to email
+            "email" to email,
+            "profileUrl" to null
         )
 
         print("/////////////////////////// the user is created in Firestore uid : ${Firebase.auth.currentUser?.uid} //////////////////////////////")
@@ -89,22 +92,49 @@ class AuthUserRepository constructor (application: Application) {
         }
     }
 
-    fun logOut() {
-        firebaseAuth!!.signOut()
-        loggedOutLiveData!!.postValue(true)
-        userID?.postValue(null)
+    fun getUser(usertype: String , uid : String) {
+        var user: UserAdapter? = null
+
+        FirebaseFirestore.getInstance().collection(usertype).document(uid).get().apply {
+            addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    val name = document.data?.get("name")
+                    val age = document.data?.get("age")
+                    val email = document.data?.get("email")
+                    val mobile = document.data?.get("mobile")
+                    val profileUrl = document.data?.get("profileUrl")
+
+                    user = UserAdapter(name as String?, email as String?, age as String?, profileUrl as String?, usertype , mobile as String?)
+
+                    userDataLiveData?.postValue(user)
+
+                } else {
+                    Log.d(TAG, "No such document")
+                }
+                addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
+            }
+        }
     }
 
-    fun getUserLiveData(): MutableLiveData<FirebaseUser>? {
-        return userLiveData
-    }
+        fun logOut() {
+            firebaseAuth!!.signOut()
+            loggedOutLiveData!!.postValue(true)
+            userID?.postValue(null)
+        }
 
-    fun getLoggedOutLiveData(): MutableLiveData<Boolean>? {
-        return loggedOutLiveData
-    }
+        fun getUserLiveData(): MutableLiveData<FirebaseUser>? {
+            return userLiveData
+        }
 
-    private fun getuserid() : String? {
-        return FirebaseAuth.getInstance().currentUser?.uid
-    }
+        fun getLoggedOutLiveData(): MutableLiveData<Boolean>? {
+            return loggedOutLiveData
+        }
 
-}
+        fun getUserDataLiveData() : MutableLiveData<UserAdapter>?{
+            return userDataLiveData
+        }
+
+    }
