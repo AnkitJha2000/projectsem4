@@ -1,19 +1,21 @@
 package com.example.projectsem4.activities.admin
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
+import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.MainActivity
+import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityAdminLoginPageBinding
+import com.google.android.gms.auth.api.Auth
 
 class AdminLoginPage : AppCompatActivity() {
     private lateinit var binding : ActivityAdminLoginPageBinding
     private lateinit var viewModel : FirebaseAuthViewModel
-    @RequiresApi(Build.VERSION_CODES.P)
+    private lateinit var repository : AuthUserRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -21,9 +23,13 @@ class AdminLoginPage : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel = FirebaseAuthViewModel(this.application)
+        repository = AuthUserRepository()
 
-        binding.adminloginbtn.setOnClickListener{
+        val viewModelFactory = FirebaseViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
+
+        binding.adminloginbtn.setOnClickListener {
             if(!validateEmail() || !validatePassword())
             {
                 return@setOnClickListener
@@ -48,6 +54,7 @@ class AdminLoginPage : AppCompatActivity() {
             startActivity(Intent(this@AdminLoginPage , AdminSignUpPage::class.java))
             finish()
         }
+
     }
 
     private fun validateEmail(): Boolean {

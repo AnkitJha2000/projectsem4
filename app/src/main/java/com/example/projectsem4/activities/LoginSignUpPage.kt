@@ -3,16 +3,19 @@ package com.example.projectsem4.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
+import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.admin.AdminLoginPage
 import com.example.projectsem4.activities.admin.AdminSignUpPage
 import com.example.projectsem4.activities.parent.ParentLoginPage
+import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityLoginSignUpPageBinding
 
 class LoginSignUpPage : AppCompatActivity() {
     private lateinit var binding: ActivityLoginSignUpPageBinding
     private lateinit var viewModel: FirebaseAuthViewModel
-
+    private lateinit var repository: AuthUserRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,7 +23,12 @@ class LoginSignUpPage : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel = FirebaseAuthViewModel(this.application)
+        repository = AuthUserRepository()
+
+        val viewModelFactory = FirebaseViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
+
 
         binding.loginsignupparentsignin.setOnClickListener{
             val intent = Intent(this@LoginSignUpPage , ParentLoginPage::class.java)

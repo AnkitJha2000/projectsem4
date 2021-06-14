@@ -4,27 +4,33 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
+import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.MainActivity
+import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityParentSignUpPageBinding
-import com.google.firebase.auth.FirebaseUser
 
 
 class ParentSignUpPage : AppCompatActivity() {
-    lateinit var binding: ActivityParentSignUpPageBinding
+    private lateinit var binding: ActivityParentSignUpPageBinding
     private lateinit var viewModel : FirebaseAuthViewModel
+    private lateinit var repository: AuthUserRepository
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityParentSignUpPageBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        viewModel = FirebaseAuthViewModel(this.application)
+
+        repository = AuthUserRepository()
+
+        val viewModelFactory = FirebaseViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
 
         binding.parentsignupcreatebtn.setOnClickListener{
 
@@ -38,26 +44,35 @@ class ParentSignUpPage : AppCompatActivity() {
                 return@setOnClickListener
             else {
                 viewModel.signup( email , password)
+
                 print("/////////////////// create user was run ////////////////////////////////////")
+                Log.d("ParentSignUpPage", "onCreate: \"/////////////////// create user was run ////////////////////////////////////\"")
 
                 viewModel.getUserLiveData()?.observe(this , {
 
                     viewModel.createUser(name , mobile , age , email, "parent")
 
-                    viewModel.getUserLiveData()?.observe(this,
+                    Log.d("ParentSignUpPage", "onCreate: the user was created in firestore")
+                    viewModel.getUserLiveData()!!.observe(this,
                         { firebaseUser ->
                             if (firebaseUser != null) {
                                 val intent = Intent(this@ParentSignUpPage , MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
+                            else{
+                                viewModel.getErrorLiveData().observe(this , {
+                                    Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                                })
+                            }
                         })
+                    viewModel.getErrorLiveData().observe(this , {
+                        if(it != null)
+                        {
+                            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 })
-
-//                if(viewModel.getUserLiveData() != null) {
-//                    startActivity(Intent(this, MainActivity::class.java))
-//                    finish()
-//                }
             }
         }
     }

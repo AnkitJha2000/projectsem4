@@ -1,59 +1,56 @@
 package com.example.projectsem4.ViewModels
 
-import android.app.Application
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.projectsem4.adapters.UserAdapter
 import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseUser
 
-class FirebaseAuthViewModel () : ViewModel() {
-    private var application : Application? = null
-    private var authUserRepository: AuthUserRepository? = null
-    private var userLiveData: MutableLiveData<FirebaseUser>? = null
-    private var loggedOutLiveData: MutableLiveData<Boolean>? = null
-    private var userDataLiveData : MutableLiveData<UserAdapter>? = null
+class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
 
-    constructor (application: Application) : this() {
-        this.application = application
-        this.authUserRepository = AuthUserRepository(application)
-        this.userLiveData = authUserRepository!!.getUserLiveData()
-        this.loggedOutLiveData = authUserRepository!!.getLoggedOutLiveData()
-        this.userDataLiveData = authUserRepository!!.getUserDataLiveData()
-    }
+    private val authUserRepository: AuthUserRepository = repository
+    private var userLiveData: MutableLiveData<FirebaseUser>? = authUserRepository.getUserLiveData()
+    private var loggedOutLiveData: MutableLiveData<Boolean>? = authUserRepository.getLoggedOutLiveData()
+    private var userInfoLivaData : MutableLiveData<UserAdapter>? = authUserRepository.getUserInfoLiveData()
+    private var errorLiveData : MutableLiveData<String> = authUserRepository.getErrorLiveData()
 
-    @RequiresApi(Build.VERSION_CODES.P)
     fun login(email: String, password: String) {
-        authUserRepository?.login(email, password)
+        repository.login(email, password)
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     fun signup(email: String?, password: String?) {
-        authUserRepository?.signup(email, password)
+        repository.signup(email, password)
     }
 
     fun createUser(name : String , mobile : String , age : String , email : String, usertype : String)
     {
-        authUserRepository?.createUser(name, mobile, age, email, usertype)
+        repository.createUser(name, mobile, age, email, usertype)
     }
-
 
     fun getUserLiveData(): MutableLiveData<FirebaseUser>? {
         return userLiveData
     }
 
     fun logOut() {
-        authUserRepository?.logOut()
+        repository.logOut()
     }
 
     fun getLoggedOutLiveData(): MutableLiveData<Boolean>? {
         return loggedOutLiveData
     }
 
-    fun getUserDataLiveData() : MutableLiveData<UserAdapter>?{
-        return userDataLiveData
+    fun getUserInfoLiveData() : MutableLiveData<UserAdapter>? {
+        return userInfoLivaData
+    }
+
+    fun getUser(userType: String, firebaseuid: String) {
+        repository.getUser(userType , firebaseuid)
+    }
+
+    fun getErrorLiveData() : MutableLiveData<String>
+    {
+        return errorLiveData
     }
 
 }
+

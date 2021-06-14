@@ -4,17 +4,22 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
+import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.MainActivity
+import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityParentLoginPageBinding
+import com.google.firebase.database.core.Tag
 
 class ParentLoginPage : AppCompatActivity() {
     private lateinit var binding : ActivityParentLoginPageBinding
     private lateinit var viewModel : FirebaseAuthViewModel
+    private lateinit var repository: AuthUserRepository
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,7 +27,12 @@ class ParentLoginPage : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel = FirebaseAuthViewModel(this.application)
+        repository = AuthUserRepository()
+
+        val viewModelFactory = FirebaseViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
+
 
         binding.parentlogintosignup.setOnClickListener {
             val intent = Intent(this@ParentLoginPage, ParentSignUpPage::class.java)
@@ -44,9 +54,15 @@ class ParentLoginPage : AppCompatActivity() {
                 viewModel.getUserLiveData()?.observe(this,
                     { firebaseUser ->
                         if (firebaseUser != null) {
+                            Toast.makeText(this , "Login Successful !", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@ParentLoginPage, MainActivity::class.java)
                             startActivity(intent)
                             finish()
+                        }
+                        else{
+                            viewModel.getErrorLiveData().observe(this , {
+                                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                            })
                         }
                     })
             }

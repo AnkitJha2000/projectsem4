@@ -6,21 +6,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
+import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.MainActivity
+import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityAdminSignUpPageBinding
 
 class AdminSignUpPage : AppCompatActivity() {
     private lateinit var binding: ActivityAdminSignUpPageBinding
     private lateinit var viewModel : FirebaseAuthViewModel
-    @RequiresApi(Build.VERSION_CODES.P)
+    private lateinit var repository: AuthUserRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminSignUpPageBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        viewModel = FirebaseAuthViewModel(this.application)
+
+        repository = AuthUserRepository()
+
+        val viewModelFactory = FirebaseViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
+
         binding.signuptologin.setOnClickListener {
             startActivity(Intent(this@AdminSignUpPage , AdminLoginPage::class.java))
             finish()
@@ -35,17 +44,7 @@ class AdminSignUpPage : AppCompatActivity() {
                 val mobile = binding.signupmobile.editText?.text.toString()
                 val password = binding.signuppassword.editText?.text.toString()
                 val name = binding.signupname.editText?.text.toString()
-                viewModel.signup(email , password )
-                viewModel.createUser(name , mobile , "no age " , email , "admin")
 
-                viewModel.getUserLiveData()?.observe(this,
-                    { firebaseUser ->
-                        if (firebaseUser != null) {
-                            val intent = Intent(this@AdminSignUpPage , MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                    })
             }
         }
     }
@@ -81,7 +80,6 @@ class AdminSignUpPage : AppCompatActivity() {
             true
         }
     }
-
 
     private fun validateEmail(): Boolean {
         val email = binding.signupemail.editText?.text.toString().trim()
