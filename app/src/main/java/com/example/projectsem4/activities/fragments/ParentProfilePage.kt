@@ -3,53 +3,71 @@ package com.example.projectsem4.activities.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.application.VaccinationApplication
 import com.example.projectsem4.databinding.FragmentParentProfilePageBinding
-import com.google.android.gms.auth.api.Auth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.platforminfo.UserAgentPublisher
+import com.squareup.picasso.Picasso
 
-class ParentProfilePage : Fragment() {
+class ParentProfilePage(private val repository: AuthUserRepository) : Fragment() {
+
     private lateinit var binding : FragmentParentProfilePageBinding
-    private lateinit var viewModel : FirebaseAuthViewModel
-    private lateinit var repository: AuthUserRepository
-    @SuppressLint("SetTextI18n")
+
+    private val viewModel : FirebaseAuthViewModel by viewModels {
+        FirebaseViewModelFactory( ( requireActivity().application as VaccinationApplication).repository)
+    }
+
+    // private lateinit var latestViewModel : FirebaseAuthViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentParentProfilePageBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
-        repository = AuthUserRepository()
+        // val viewModelFactory = FirebaseViewModelFactory(repository)
 
-        val viewModelFactory = FirebaseViewModelFactory(repository)
+        // latestViewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
 
-        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
+        // Log.d("repoUsed", "onViewCreated:" + repository.getUserLiveData().toString())
 
         viewModel.getUserLiveData()?.observe(viewLifecycleOwner , { uid ->
-            viewModel.getUser("parent" , uid.uid)
-            viewModel.getUserInfoLiveData()?.observe(viewLifecycleOwner, { it ->
 
-                print("/// ${it.getUserEmail()} ////////////////////////////////////////////////////////")
-                it.getUserEmail()?.let { it1 -> Log.d("debug_profile_fragment", it1) }
-                binding.parentName.text = it.getUserName()
-                binding.parentAge.text = it.getUserAge()
-                binding.parentEmail.text = it.getUserEmail()
-                binding.parentMobileNUmber.text = it.getUserMobile()
+            viewModel.getUserInfoLiveData().observe(viewLifecycleOwner, {
+
+                    // viewModel.getUser("parent" , uid.uid)
+
+                    print("/// ${it.getUserEmail()} ////////////////////////////////////////////////////////")
+                    Log.d("ankit when repo is null", "onViewCreated: $it")
+                    binding.parentName.text = it.getUserName()
+                    binding.parentAge.text = it.getUserAge()
+                    binding.parentEmail.text = it.getUserEmail()
+                    binding.parentMobileNUmber.text = it.getUserMobile()
+
+                    val picasso = Picasso.Builder(requireContext())
+                        .listener { _, _, e -> e.printStackTrace() }
+                        .build()
+
+                    picasso.load("http://goo.gl/gEgYUd").placeholder(R.drawable.ic_baseline_timer_24).into(binding.parentProfilePicture)
 
             })
         })
+
+        binding.parentProfileEditBtn.setOnClickListener{
+            // startActivity(Intent(activity , ))
+        }
+
     }
 }
 

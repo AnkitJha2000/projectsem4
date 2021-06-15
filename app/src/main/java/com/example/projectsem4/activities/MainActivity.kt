@@ -3,9 +3,9 @@ package com.example.projectsem4.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
@@ -13,36 +13,37 @@ import com.example.projectsem4.activities.fragments.ParentHomePage
 import com.example.projectsem4.activities.fragments.ParentNotifierPage
 import com.example.projectsem4.activities.fragments.ParentProfilePage
 import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.application.VaccinationApplication
 import com.example.projectsem4.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import nl.joery.animatedbottombar.AnimatedBottomBar
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: FirebaseAuthViewModel
-    private lateinit var repository: AuthUserRepository
+
+    private val viewModel : FirebaseAuthViewModel by viewModels {
+        FirebaseViewModelFactory((application as VaccinationApplication).repository)
+    }
+
+    private val repository : AuthUserRepository by lazy{
+        Log.d("repositoryMain", "repo was created !!!!!!")
+        AuthUserRepository()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+
         setContentView(view)
-
-        repository = AuthUserRepository()
-
-        val viewModelFactory = FirebaseViewModelFactory(repository)
-
-        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
-
 
         viewModel.getUserLiveData()?.observe(this , { firebaseuid ->
             viewModel.getUser("parent" , firebaseuid.uid)
             Log.d("debug_profile_fragment" , firebaseuid.uid )
         })
-
 
         binding.mainlogout.setOnClickListener{
             print("////////////////////////////// ${viewModel.getUserLiveData().toString()}///////////////////////////////////")
@@ -72,12 +73,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 else if(newIndex == 2)
                 {
-                    loadFragment(ParentProfilePage())
+                    loadFragment(ParentProfilePage(repository))
                 }
                 else{
                     loadFragment(ParentHomePage())
                 }
-
             }
 
             // An optional method that will be fired whenever an already selected tab has been selected again.

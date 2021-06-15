@@ -1,5 +1,6 @@
 package com.example.projectsem4.activities.repository
 
+import android.app.Application
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -10,12 +11,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
-class AuthUserRepository {
+class AuthUserRepository : Application() {
 
     private var firebaseAuth: FirebaseAuth? = FirebaseAuth.getInstance()
     private var userLiveData: MutableLiveData<FirebaseUser>? = MutableLiveData<FirebaseUser>()
     private var loggedOutLiveData: MutableLiveData<Boolean>? = MutableLiveData<Boolean>()
-    private var userInfoLiveData : MutableLiveData<UserAdapter>? = MutableLiveData<UserAdapter>()
+    private var userInfoLiveData : MutableLiveData<UserAdapter> = MutableLiveData<UserAdapter>()
     private var errorLiveData : MutableLiveData<String> = MutableLiveData()
 
     init{
@@ -125,7 +126,7 @@ class AuthUserRepository {
             return loggedOutLiveData
         }
 
-    fun getUserInfoLiveData() : MutableLiveData<UserAdapter>? {
+    fun getUserInfoLiveData() : MutableLiveData<UserAdapter> {
             return userInfoLiveData
     }
 

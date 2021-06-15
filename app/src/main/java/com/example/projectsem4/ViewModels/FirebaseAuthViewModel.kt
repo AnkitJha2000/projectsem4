@@ -11,7 +11,7 @@ class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
     private val authUserRepository: AuthUserRepository = repository
     private var userLiveData: MutableLiveData<FirebaseUser>? = authUserRepository.getUserLiveData()
     private var loggedOutLiveData: MutableLiveData<Boolean>? = authUserRepository.getLoggedOutLiveData()
-    private var userInfoLivaData : MutableLiveData<UserAdapter>? = authUserRepository.getUserInfoLiveData()
+    private var userInfoLivaData : MutableLiveData<UserAdapter> = authUserRepository.getUserInfoLiveData()
     private var errorLiveData : MutableLiveData<String> = authUserRepository.getErrorLiveData()
 
     fun login(email: String, password: String) {
@@ -39,7 +39,7 @@ class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
         return loggedOutLiveData
     }
 
-    fun getUserInfoLiveData() : MutableLiveData<UserAdapter>? {
+    fun getUserInfoLiveData() : MutableLiveData<UserAdapter> {
         return userInfoLivaData
     }
 
