@@ -52,5 +52,9 @@ class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
         return errorLiveData
     }
 
+    fun updateUser(usertype: String , uid : String, name : String? , mobile: String? , age : String? , profileUrl : String? , email: String?){
+        return authUserRepository.updateUser(usertype , uid , name , mobile , age , profileUrl , email)
+    }
+
 }
 

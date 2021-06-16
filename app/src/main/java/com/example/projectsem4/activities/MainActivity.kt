@@ -3,17 +3,16 @@ package com.example.projectsem4.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
-import com.example.projectsem4.activities.fragments.ParentHomePage
-import com.example.projectsem4.activities.fragments.ParentNotifierPage
-import com.example.projectsem4.activities.fragments.ParentProfilePage
+import com.example.projectsem4.activities.parent.fragments.ParentHomePage
+import com.example.projectsem4.activities.parent.fragments.ParentNotifierPage
+import com.example.projectsem4.activities.parent.fragments.ParentProfilePage
 import com.example.projectsem4.activities.repository.AuthUserRepository
-import com.example.projectsem4.application.VaccinationApplication
 import com.example.projectsem4.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -23,14 +22,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel : FirebaseAuthViewModel by viewModels {
-        FirebaseViewModelFactory((application as VaccinationApplication).repository)
-    }
-
     private val repository : AuthUserRepository by lazy{
         Log.d("repositoryMain", "repo was created !!!!!!")
         AuthUserRepository()
     }
+
+    private lateinit var viewModel : FirebaseAuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
 
         setContentView(view)
+
+        val viewModelFactory = FirebaseViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
 
         viewModel.getUserLiveData()?.observe(this , { firebaseuid ->
             viewModel.getUser("parent" , firebaseuid.uid)
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else if(newIndex == 2)
                 {
-                    loadFragment(ParentProfilePage(repository))
+                    loadFragment(ParentProfilePage())
                 }
                 else{
                     loadFragment(ParentHomePage())
@@ -107,8 +108,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity , LoginSignUpPage::class.java))
             finish()
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
 
+        viewModel.getUserLiveData()?.observe(this , {
+            viewModel.getUser("parent" , it.uid)
+        })
     }
 
 }

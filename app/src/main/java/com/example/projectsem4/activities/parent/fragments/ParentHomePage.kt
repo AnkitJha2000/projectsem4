@@ -1,4 +1,4 @@
-package com.example.projectsem4.activities.fragments
+package com.example.projectsem4.activities.parent.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -98,7 +98,7 @@ class AuthUserRepository : Application() {
 
                     user = UserAdapter(name as String?, email as String?, age as String?, profileUrl as String?, usertype , mobile as String?)
 
-                    userInfoLiveData?.postValue(user)
+                    userInfoLiveData.postValue(user)
                     errorLiveData.postValue(null)
 
                 } else {
@@ -111,6 +111,26 @@ class AuthUserRepository : Application() {
                 }
             }
         }
+    }
+
+    fun updateUser(usertype: String , uid : String, name : String? , mobile: String? , age : String? , profileUrl : String? , email: String?)
+    {
+        val user = hashMapOf(
+            "name" to name,
+            "mobile" to mobile,
+            "age" to age,
+            "email" to email,
+            "profileUrl" to profileUrl
+        )
+        FirebaseFirestore.getInstance().collection(usertype).document(uid).set(user)
+            .addOnSuccessListener {
+                Log.d(TAG, "updateUser: the user info was updated")
+                errorLiveData.postValue(null)
+            }
+            .addOnFailureListener {
+                errorLiveData.postValue("Error while updating $it")
+                Log.d(TAG, "updateUser: the user info updating was not successful")
+            }
     }
 
     fun logOut() {
