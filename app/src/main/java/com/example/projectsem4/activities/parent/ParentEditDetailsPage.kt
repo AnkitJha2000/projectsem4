@@ -2,6 +2,7 @@ package com.example.projectsem4.activities.parent
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -18,6 +19,8 @@ class ParentEditDetailsPage : AppCompatActivity() {
 
     private lateinit var binding : ActivityParentEditDetailsPageBinding
     private lateinit var viewModel : FirebaseAuthViewModel
+    private val IMAGE_REQUEST_CODE = 100
+    private var filepath : Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityParentEditDetailsPageBinding.inflate(layoutInflater)
@@ -71,7 +74,49 @@ class ParentEditDetailsPage : AppCompatActivity() {
 
         // 16/06/2021
         binding.parentEditProfilePictureBtn.setOnClickListener{
-            // uploadImage()
+            pickImageFromGallery()
+        }
+
+    }
+
+    fun pickImageFromGallery(){
+        startActivityForResult(Intent(Intent.ACTION_PICK).setType("image/*") , IMAGE_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            if(data == null || data.data == null)
+            {
+                return
+            }
+            else
+            {
+                filepath = data.data
+                binding.parentEditProfilePicture.setImageURI(data.data)
+                viewModel.getUserLiveData()?.observe(this , {
+                    user->
+
+                    filepath?.let { viewModel.uploadImage(it, user.uid , "parent" ) }
+
+                    viewModel.getErrorLiveData().observe(this, {
+                        if(it == null)
+                        {
+                            Toast.makeText(this, "image uploaded successfully", Toast.LENGTH_SHORT).show()
+                        }
+                        else
+                        {
+                            Toast.makeText(this, it , Toast.LENGTH_SHORT).show()
+                        }
+                    })
+
+                })
+            }
+
+
+
         }
 
     }

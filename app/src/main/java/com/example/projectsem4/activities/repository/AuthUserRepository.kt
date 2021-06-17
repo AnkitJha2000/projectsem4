@@ -2,6 +2,7 @@ package com.example.projectsem4.activities.repository
 
 import android.app.Application
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.projectsem4.adapters.UserAdapter
@@ -10,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 class AuthUserRepository : Application() {
 
@@ -18,6 +20,7 @@ class AuthUserRepository : Application() {
     private var loggedOutLiveData: MutableLiveData<Boolean>? = MutableLiveData<Boolean>()
     private var userInfoLiveData : MutableLiveData<UserAdapter> = MutableLiveData<UserAdapter>()
     private var errorLiveData : MutableLiveData<String> = MutableLiveData()
+
 
     init{
         if (firebaseAuth!!.currentUser != null) {
@@ -113,8 +116,7 @@ class AuthUserRepository : Application() {
         }
     }
 
-    fun updateUser(usertype: String , uid : String, name : String? , mobile: String? , age : String? , profileUrl : String? , email: String?)
-    {
+    fun updateUser(usertype: String , uid : String, name : String? , mobile: String? , age : String? , profileUrl : String? , email: String?) {
         val user = hashMapOf(
             "name" to name,
             "mobile" to mobile,
@@ -132,6 +134,18 @@ class AuthUserRepository : Application() {
                 Log.d(TAG, "updateUser: the user info updating was not successful")
             }
     }
+
+    fun uploadImage(filepath : Uri, uid : String , usertype: String ) {
+        FirebaseStorage.getInstance().reference.child(usertype).child("profile").child(uid).putFile(filepath)
+            .addOnSuccessListener {
+                errorLiveData.postValue(null)
+                it.uploadSessionUri.toString()
+            }
+            .addOnFailureListener{
+                errorLiveData.postValue("error while uploading : $it")
+            }
+    }
+
 
     fun logOut() {
             firebaseAuth!!.signOut()

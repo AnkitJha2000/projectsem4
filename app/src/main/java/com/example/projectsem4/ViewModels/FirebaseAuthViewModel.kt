@@ -1,5 +1,6 @@
 package com.example.projectsem4.ViewModels
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.projectsem4.activities.repository.AuthUserRepository
@@ -54,6 +55,11 @@ class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
 
     fun updateUser(usertype: String , uid : String, name : String? , mobile: String? , age : String? , profileUrl : String? , email: String?){
         return authUserRepository.updateUser(usertype , uid , name , mobile , age , profileUrl , email)
+    }
+
+    fun uploadImage(filepath : Uri, uid : String, userType: String)
+    {
+        return authUserRepository.uploadImage(filepath , uid , userType)
     }
 
 }
