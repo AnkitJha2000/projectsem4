@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
+import com.example.projectsem4.activities.LoginSignUpPage
 import com.example.projectsem4.activities.parent.ParentEditDetailsPage
 import com.example.projectsem4.databinding.FragmentParentProfilePageBinding
 import com.squareup.picasso.Picasso
@@ -40,14 +41,21 @@ class ParentProfilePage : Fragment() {
                         .listener { _, _, e -> e.printStackTrace() }
                         .build()
 
-                    picasso.load("http://goo.gl/gEgYUd").placeholder(R.drawable.ic_baseline_timer_24).into(binding.parentProfilePicture)
+                    picasso.load(it.getUserProfileUrl()).placeholder(R.drawable.ic_baseline_timer_24).into(binding.parentProfilePicture)
 
             })
 
+        binding.parentLogoutBtn.setOnClickListener{
+
+            print("////////////////////////////// ${viewModel.getUserLiveData().toString()}///////////////////////////////////")
+            viewModel.logOut()
+            startActivity(Intent(requireContext() , LoginSignUpPage::class.java))
+            activity?.finish()
+
+        }
+
         binding.parentProfileEditBtn.setOnClickListener{
-
             startActivity(Intent(activity , ParentEditDetailsPage::class.java))
-
         }
 
     }

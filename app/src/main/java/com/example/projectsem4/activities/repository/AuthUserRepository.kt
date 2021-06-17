@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
+import android.widget.MultiAutoCompleteTextView
 import androidx.lifecycle.MutableLiveData
 import com.example.projectsem4.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
@@ -20,12 +21,13 @@ class AuthUserRepository : Application() {
     private var loggedOutLiveData: MutableLiveData<Boolean>? = MutableLiveData<Boolean>()
     private var userInfoLiveData : MutableLiveData<UserAdapter> = MutableLiveData<UserAdapter>()
     private var errorLiveData : MutableLiveData<String> = MutableLiveData()
-
+    private var profileUrl : MutableLiveData<String> = MutableLiveData<String>()
 
     init{
         if (firebaseAuth!!.currentUser != null) {
             userLiveData?.postValue(firebaseAuth!!.currentUser)
             loggedOutLiveData?.postValue(false)
+            // setProfileUrl("http://goo.gl/gEgYUd")
         }
     }
 
@@ -77,7 +79,9 @@ class AuthUserRepository : Application() {
                 FirebaseFirestore.getInstance().collection(usertype).document(it)
                     .set(user)
                     .addOnSuccessListener { Log.d("ankit", "DocumentSnapshot successfully written!")
-                    errorLiveData.postValue(null)}
+                    errorLiveData.postValue(null)
+                        profileUrl.postValue("http://goo.gl/gEgYUd")
+                    }
                     .addOnFailureListener { e -> Log.w("ankit", "Error writing document", e)
                         errorLiveData.postValue("Error writing document")
                     }
@@ -103,6 +107,7 @@ class AuthUserRepository : Application() {
 
                     userInfoLiveData.postValue(user)
                     errorLiveData.postValue(null)
+                    setProfileUrl(profileUrl)
 
                 } else {
                     Log.d(TAG, "No such document")
@@ -128,6 +133,7 @@ class AuthUserRepository : Application() {
             .addOnSuccessListener {
                 Log.d(TAG, "updateUser: the user info was updated")
                 errorLiveData.postValue(null)
+                setProfileUrl(profileUrl)
             }
             .addOnFailureListener {
                 errorLiveData.postValue("Error while updating $it")
@@ -135,15 +141,24 @@ class AuthUserRepository : Application() {
             }
     }
 
-    fun uploadImage(filepath : Uri, uid : String , usertype: String ) {
-        FirebaseStorage.getInstance().reference.child(usertype).child("profile").child(uid).putFile(filepath)
-            .addOnSuccessListener {
-                errorLiveData.postValue(null)
-                it.uploadSessionUri.toString()
+    fun uploadImage(filepath : Uri, uid : String , usertype: String ) : String {
+
+        val file = FirebaseStorage.getInstance().reference.child(usertype + "_images/" + uid + ".jpg")
+        return file.putFile(filepath)
+            .addOnCompleteListener{
+                if(it.isSuccessful)
+                {
+                    errorLiveData.postValue(null)
+                    file.downloadUrl.addOnSuccessListener {
+                            url->
+                        profileUrl.postValue(url.toString())
+                    }
+                }
             }
             .addOnFailureListener{
                 errorLiveData.postValue("error while uploading : $it")
             }
+            .snapshot.toString()
     }
 
 
@@ -166,6 +181,14 @@ class AuthUserRepository : Application() {
 
     fun getErrorLiveData() : MutableLiveData<String> {
         return errorLiveData
+    }
+
+    fun setProfileUrl(url : String? ){
+        profileUrl.postValue(url)
+    }
+
+    fun getProfileUrl() : MutableLiveData<String>{
+        return profileUrl
     }
 
 }

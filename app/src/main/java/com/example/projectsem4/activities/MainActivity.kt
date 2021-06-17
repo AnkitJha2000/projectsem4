@@ -41,17 +41,10 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
 
-        viewModel.getUserLiveData()?.observe(this , { firebaseuid ->
-            viewModel.getUser("parent" , firebaseuid.uid)
-            Log.d("debug_profile_fragment" , firebaseuid.uid )
+        viewModel.getUserLiveData()?.observe(this , { firebaseUid ->
+            viewModel.getUser("parent" , firebaseUid.uid)
+            Log.d("debug_profile_fragment" , firebaseUid.uid )
         })
-
-        binding.mainlogout.setOnClickListener{
-            print("////////////////////////////// ${viewModel.getUserLiveData().toString()}///////////////////////////////////")
-            viewModel.logOut()
-            startActivity(Intent(this@MainActivity , LoginSignUpPage::class.java))
-            finish()
-        }
 
         loadFragment(ParentHomePage())
 

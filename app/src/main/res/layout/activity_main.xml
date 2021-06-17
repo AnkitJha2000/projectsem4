@@ -6,13 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="logout"
-        android:id="@+id/mainlogout"
-        />
-
     <nl.joery.animatedbottombar.AnimatedBottomBar
         android:id="@+id/main_bottom_bar"
         android:layout_width="match_parent"
@@ -22,7 +15,6 @@
         app:abb_indicatorAppearance="round"
         app:abb_indicatorMargin="16dp"
         app:abb_indicatorHeight="4dp"
-        android:layout_margin="30dp"
         app:abb_tabs="@menu/tabs"
         app:abb_selectedIndex="0"
         android:elevation="8dp"

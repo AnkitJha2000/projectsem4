@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
+import com.example.projectsem4.activities.LoginSignUpPage
 import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityParentEditDetailsPageBinding
 import com.squareup.picasso.Picasso
@@ -41,22 +42,25 @@ class ParentEditDetailsPage : AppCompatActivity() {
                      .listener { _, _, e -> e.printStackTrace() }
                      .build()
 
-                 picasso.load("http://goo.gl/gEgYUd").placeholder(R.drawable.ic_baseline_timer_24).into(binding.parentEditProfilePicture)
+                 picasso.load(it.getUserProfileUrl()).placeholder(R.drawable.ic_baseline_timer_24).into(binding.parentEditProfilePicture)
 
              })
         })
 
+
         binding.parentSaveDataBtn.setOnClickListener{
             viewModel.getUserLiveData()?.observe(this , {user ->
                 viewModel.getUserInfoLiveData().observe(this , {adapter->
-                    viewModel.updateUser("parent" ,
-                        user.uid ,
-                        binding.parentEditName.editText?.text.toString(),
-                        binding.parentEditMobileNumber.editText?.text.toString() ,
-                        binding.parentEditAge.editText?.text.toString() ,
-                        adapter.getUserProfileUrl() ,
-                        adapter.getUserEmail())
-                    Log.d(TAG, "onCreate: the user was updated !! ")
+                    viewModel.getProfileUrl().observe(this , { url->
+                        viewModel.updateUser("parent" ,
+                            user.uid ,
+                            binding.parentEditName.editText?.text.toString(),
+                            binding.parentEditMobileNumber.editText?.text.toString() ,
+                            binding.parentEditAge.editText?.text.toString() ,
+                            url,
+                            adapter.getUserEmail())
+                        Log.d(TAG, "onCreate: the user was updated !! ")
+                    })
                 })
             })
             viewModel.getErrorLiveData().observe(this , {
@@ -99,7 +103,10 @@ class ParentEditDetailsPage : AppCompatActivity() {
                 viewModel.getUserLiveData()?.observe(this , {
                     user->
 
-                    filepath?.let { viewModel.uploadImage(it, user.uid , "parent" ) }
+                    if( filepath != null)
+                    {
+                        viewModel.uploadImage(filepath!!, user.uid , "parent")
+                    }
 
                     viewModel.getErrorLiveData().observe(this, {
                         if(it == null)

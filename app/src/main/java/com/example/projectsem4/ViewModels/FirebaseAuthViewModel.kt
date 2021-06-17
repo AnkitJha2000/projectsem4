@@ -57,9 +57,13 @@ class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
         return authUserRepository.updateUser(usertype , uid , name , mobile , age , profileUrl , email)
     }
 
-    fun uploadImage(filepath : Uri, uid : String, userType: String)
+    fun uploadImage(filepath : Uri, uid : String, userType: String):String
     {
         return authUserRepository.uploadImage(filepath , uid , userType)
+    }
+
+    fun getProfileUrl() : MutableLiveData<String>{
+        return authUserRepository.getProfileUrl()
     }
 
 }
