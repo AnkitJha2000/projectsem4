@@ -27,7 +27,6 @@ class AuthUserRepository : Application() {
         if (firebaseAuth!!.currentUser != null) {
             userLiveData?.postValue(firebaseAuth!!.currentUser)
             loggedOutLiveData?.postValue(false)
-            // setProfileUrl("http://goo.gl/gEgYUd")
         }
     }
 
@@ -70,7 +69,7 @@ class AuthUserRepository : Application() {
             "mobile" to mobile,
             "age" to age,
             "email" to email,
-            "profileUrl" to null
+            "profileUrl" to "http://goo.gl/gEgYUd"
         )
 
         print("/////////////////////////// the user is created in Firestore uid : ${Firebase.auth.currentUser?.uid} //////////////////////////////")
@@ -143,7 +142,7 @@ class AuthUserRepository : Application() {
 
     fun uploadImage(filepath : Uri, uid : String , usertype: String ) : String {
 
-        val file = FirebaseStorage.getInstance().reference.child(usertype + "_images/" + uid + ".jpg")
+        val file = FirebaseStorage.getInstance().reference.child(usertype + "_images/profiles/" + uid + ".jpg")
         return file.putFile(filepath)
             .addOnCompleteListener{
                 if(it.isSuccessful)
