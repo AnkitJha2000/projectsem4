@@ -14,22 +14,24 @@
         <androidx.viewpager2.widget.ViewPager2
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:id="@+id/parentHomeViewPager"
-            android:background="@drawable/homepagevaccinate1"
-            >
+            />
 
-        </androidx.viewpager2.widget.ViewPager2>
-
-        <me.relex.circleindicator.CircleIndicator
+        <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/indicator"
+            android:background="@color/purple_500"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_below="@id/parentHomeViewPager"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
@@ -57,11 +59,37 @@
                 <ImageView
                     android:layout_below="@id/tvques"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_baseline_account_box_24"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/getvaccine1"
                     android:contentDescription="question image"
+                    android:id="@+id/ivQues"
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ivQues"
+                    >
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:text="yes"
+                        app:icon="@drawable/ic_baseline_check_24"
+                        />
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        app:icon="@drawable/ic_baseline_close_24"
+                        android:text="No"
+                        />
+
+                </LinearLayout>
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -70,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NEWS :"
+            android:layout_marginTop="15dp"
             android:layout_below="@id/parentHomeVaccinatedQuestion"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -81,9 +110,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/parentHomeVaccinatedQuestion"
+            android:layout_below="@id/tv"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             />

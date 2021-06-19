@@ -1,160 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.parent.fragments.ParentProfilePage">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/parentProfilePicture"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:cropToPadding="true"
-        android:src="@drawable/ic_baseline_account_circle_24"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Display Name"
-        android:textSize="25sp"
-        android:id="@+id/parentName"
-        android:layout_below="@id/parentProfilePicture"
-        android:layout_centerHorizontal="true"
-        />
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/parentCardMobileNUmber"
-        android:layout_below="@id/parentName"
-        android:layout_marginTop="60dp"
-
         >
 
-        <RelativeLayout
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/parentProfilePicture"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:cropToPadding="true"
+            android:src="@drawable/ic_baseline_account_circle_24"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Display Name"
+            android:textSize="25sp"
+            android:id="@+id/parentName"
+            android:layout_below="@id/parentProfilePicture"
+            android:layout_centerHorizontal="true"
+            />
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/parentCardMobileNUmber"
+            android:layout_below="@id/parentName"
+            android:layout_marginTop="60dp"
 
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mobile number"
-                android:layout_margin="10dp"
-                android:textSize="20sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/parentMobileNUmber"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="10dp"
-                android:text="+91 123456789"
-                android:textSize="20sp"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-        </RelativeLayout>
+                >
 
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/parentCardEmail"
-        android:layout_below="@id/parentCardMobileNUmber"
-        android:layout_marginTop="10dp"
-        >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile number"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/parentMobileNUmber"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp"
+                    android:text="+91 123456789"
+                    android:textSize="20sp"
+                    />
 
-        <RelativeLayout
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/parentCardEmail"
+            android:layout_below="@id/parentCardMobileNUmber"
+            android:layout_marginTop="10dp"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email ID:"
-                android:layout_margin="10dp"
-                android:textSize="20sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/parentEmail"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="10dp"
-                android:text="abcxyz@gmail.com"
-                android:textSize="15sp"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email ID:"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/parentEmail"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp"
+                    android:text="abcxyz@gmail.com"
+                    android:textSize="15sp"
+                    />
 
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/parentCardEmail"
-        android:layout_marginTop="10dp"
-        android:id="@+id/parentCardAge"
-        >
+            </RelativeLayout>
 
-        <RelativeLayout
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parentCardEmail"
+            android:layout_marginTop="10dp"
+            android:id="@+id/parentCardAge"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Age"
-                android:layout_margin="10dp"
-                android:textSize="20sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/parentAge"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="10dp"
-                android:text="21"
-                android:textSize="20sp"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/parentAge"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp"
+                    android:text="21"
+                    android:textSize="20sp"
+                    />
 
-    </androidx.cardview.widget.CardView>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_below="@id/parentCardAge"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="Edit"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:textSize="20sp"
-        android:id="@+id/parentProfileEditBtn"
-        />
+            </RelativeLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
-        android:layout_below="@id/parentProfileEditBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Logout"
-        android:textAllCaps="false"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:textSize="20sp"
-        android:id="@+id/parentLogoutBtn"
-        />
+        </androidx.cardview.widget.CardView>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_below="@id/parentCardAge"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:text="Edit"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="20sp"
+            android:id="@+id/parentProfileEditBtn"
+            />
 
-</RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_below="@id/parentProfileEditBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Logout"
+            android:textAllCaps="false"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="20sp"
+            android:id="@+id/parentLogoutBtn"
+            />
+
+    </RelativeLayout>
+</ScrollView>

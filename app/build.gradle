@@ -106,4 +106,5 @@ dependencies {
 
     // auto image slider
     implementation 'me.relex:circleindicator:2.1.6'
+
 }
