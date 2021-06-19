@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".activities.parent.ParentEditDetailsPage">
 
+    <ProgressBar
+        android:elevation="2000dp"
+        android:id="@+id/parentEditDetailsProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:indeterminate="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,10 +43,12 @@
                 android:layout_alignBottom="@id/parentEditProfilePicture"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="-32dp"
+                android:elevation="20dp"
                 android:layout_marginEnd="30dp"
                 android:src="@drawable/ic_baseline_edit_24"
                 android:contentDescription="editbtn"
                 tools:ignore="RelativeOverlap" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

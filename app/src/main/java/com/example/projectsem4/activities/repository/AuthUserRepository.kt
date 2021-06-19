@@ -22,6 +22,7 @@ class AuthUserRepository : Application() {
     private var userInfoLiveData : MutableLiveData<UserAdapter> = MutableLiveData<UserAdapter>()
     private var errorLiveData : MutableLiveData<String> = MutableLiveData()
     private var profileUrl : MutableLiveData<String> = MutableLiveData<String>()
+    private var uploadImageError : MutableLiveData<String> = MutableLiveData<String>()
 
     init{
         if (firebaseAuth!!.currentUser != null) {
@@ -45,6 +46,7 @@ class AuthUserRepository : Application() {
                         }
             }
         }
+
     }
 
     fun login(email:String, password: String) {
@@ -140,10 +142,10 @@ class AuthUserRepository : Application() {
             }
     }
 
-    fun uploadImage(filepath : Uri, uid : String , usertype: String ) : String {
-
+    fun uploadImage(filepath : Uri, uid : String , usertype: String ){
+        uploadImageError.postValue("uploading")
         val file = FirebaseStorage.getInstance().reference.child(usertype + "_images/profiles/" + uid + ".jpg")
-        return file.putFile(filepath)
+        file.putFile(filepath)
             .addOnCompleteListener{
                 if(it.isSuccessful)
                 {
@@ -151,13 +153,14 @@ class AuthUserRepository : Application() {
                     file.downloadUrl.addOnSuccessListener {
                             url->
                         profileUrl.postValue(url.toString())
+                        uploadImageError.postValue("done")
                     }
                 }
             }
             .addOnFailureListener{
                 errorLiveData.postValue("error while uploading : $it")
+                uploadImageError.postValue("failed")
             }
-            .snapshot.toString()
     }
 
 
@@ -188,6 +191,10 @@ class AuthUserRepository : Application() {
 
     fun getProfileUrl() : MutableLiveData<String>{
         return profileUrl
+    }
+
+    fun getUploadImageError() : MutableLiveData<String>{
+        return uploadImageError
     }
 
 }
