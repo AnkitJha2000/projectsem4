@@ -12,7 +12,7 @@ import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.parent.fragments.ParentHomePage
 import com.example.projectsem4.activities.parent.fragments.ParentNotifierPage
 import com.example.projectsem4.activities.parent.fragments.ParentProfilePage
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

@@ -1,17 +1,13 @@
 package com.example.projectsem4.activities.admin
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
-import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
-import com.example.projectsem4.activities.MainActivity
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityAdminSignUpPageBinding
 
 class AdminSignUpPage : AppCompatActivity() {
@@ -30,107 +26,107 @@ class AdminSignUpPage : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this , viewModelFactory).get(FirebaseAuthViewModel::class.java)
 
-        binding.signuptologin.setOnClickListener {
+        binding.adminSignUpLoginToSignUp.setOnClickListener {
             startActivity(Intent(this@AdminSignUpPage , AdminLoginPage::class.java))
             finish()
         }
 
-        binding.signupcreatebtn.setOnClickListener{
+        binding.adminSignUpCreateBtn.setOnClickListener{
             if(!validateName() || !validateMobile() || !validateEmail() || !validatePassword())
                 return@setOnClickListener
             else
             {
-                val email = binding.signupemail.editText?.text.toString()
-                val mobile = binding.signupmobile.editText?.text.toString()
-                val password = binding.signuppassword.editText?.text.toString()
-                val name = binding.signupname.editText?.text.toString()
+                val email = binding.adminSignUpEmail.editText?.text.toString()
+                val location = binding.adminSignUpLocation.editText?.text.toString()
+                val password = binding.adminSignUpPassword.editText?.text.toString()
+                val name = binding.adminSignUpCenterName.editText?.text.toString()
 
             }
         }
     }
 
     private fun validateName(): Boolean {
-        val name = binding.signupname.editText?.text.toString().trim()
+        val name = binding.adminSignUpCenterName.editText?.text.toString().trim()
 
         return if(name.length < 6)
         {
-            binding.signupname.isErrorEnabled = true
-            binding.signupname.error = "Use at least 5 characters"
+            binding.adminSignUpCenterName.isErrorEnabled = true
+            binding.adminSignUpCenterName.error = "Use at least 5 characters"
             false
         }
         else
         {
-            binding.signupname.isErrorEnabled = false
+            binding.adminSignUpCenterName.isErrorEnabled = false
             true
         }
     }
 
     private fun validateMobile(): Boolean {
-        val name = binding.signupmobile.editText?.text.toString().trim()
+        val name = binding.adminSignUpLocation.editText?.text.toString().trim()
 
         return if(name.length < 10)
         {
-            binding.signupmobile.isErrorEnabled = true
-            binding.signupmobile.error = "Invalid mobile number"
+            binding.adminSignUpLocation.isErrorEnabled = true
+            binding.adminSignUpLocation.error = "Invalid mobile number"
             false
         }
         else
         {
-            binding.signupmobile.isErrorEnabled = false
+            binding.adminSignUpLocation.isErrorEnabled = false
             true
         }
     }
 
     private fun validateEmail(): Boolean {
-        val email = binding.signupemail.editText?.text.toString().trim()
+        val email = binding.adminSignUpEmail.editText?.text.toString().trim()
         val noWhite = Regex("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
         Log.d("problems","///////////////////////// $email /////////////////////////////////////////////////////////////")
         return if(email.isEmpty())
         {
-            binding.signupemail.isErrorEnabled = true
-            binding.signupemail.error = "Field can't be empty"
+            binding.adminSignUpEmail.isErrorEnabled = true
+            binding.adminSignUpEmail.error = "Field can't be empty"
             false
         }
         else if(!email.contains("@") && !email.contains("."))
         {
-            binding.signupemail.isErrorEnabled = true
-            binding.signupemail.error = "Enter a valid email"
+            binding.adminSignUpEmail.isErrorEnabled = true
+            binding.adminSignUpEmail.error = "Enter a valid email"
             false
         }
         else if (email.length < 6)
         {
-            binding.signupemail.isErrorEnabled = true
-            binding.signupemail.error = "Use at least 5 characters"
+            binding.adminSignUpEmail.isErrorEnabled = true
+            binding.adminSignUpEmail.error = "Use at least 5 characters"
             false
         }
         else if(!noWhite.containsMatchIn(email))
         {
-            binding.signupemail.isErrorEnabled = true
-            binding.signupemail.error = "Enter valid email"
+            binding.adminSignUpEmail.isErrorEnabled = true
+            binding.adminSignUpEmail.error = "Enter valid email"
             false
         }
         else
         {
-            binding.signupemail.isErrorEnabled = false
+            binding.adminSignUpEmail.isErrorEnabled = false
             true
         }
     }
 
     private fun validatePassword(): Boolean {
-        val password = binding.signuppassword.editText?.text.toString().trim()
+        val password = binding.adminSignUpPassword.editText?.text.toString().trim()
         Log.d("problems","///////////////////////// $password /////////////////////////////////////////////////////////////")
         val noWhites = Regex("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
         return when {
             password.isEmpty() -> {
-                binding.signuppassword.error = "Field can't be Empty"
+                binding.adminSignUpPassword.error = "Field can't be Empty"
                 false
             }
             !noWhites.containsMatchIn(password) -> {
-                binding.signuppassword.error = "Password is too weak"
+                binding.adminSignUpPassword.error = "Password is too weak"
                 false
             }
             else -> {
-                binding.signuppassword.isErrorEnabled = false
+                binding.adminSignUpPassword.isErrorEnabled = false
                 true
             }
         }

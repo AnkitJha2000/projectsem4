@@ -7,9 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.admin.AdminLoginPage
-import com.example.projectsem4.activities.admin.AdminSignUpPage
 import com.example.projectsem4.activities.parent.ParentLoginPage
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityLoginSignUpPageBinding
 
 class LoginSignUpPage : AppCompatActivity() {

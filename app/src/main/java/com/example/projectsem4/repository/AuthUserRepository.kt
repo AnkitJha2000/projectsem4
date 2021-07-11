@@ -1,15 +1,19 @@
-package com.example.projectsem4.activities.repository
+package com.example.projectsem4.repository
 
 import android.app.Application
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
-import android.widget.MultiAutoCompleteTextView
 import androidx.lifecycle.MutableLiveData
+import com.example.projectsem4.adapters.CenterInfoAdapter
 import com.example.projectsem4.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -23,6 +27,7 @@ class AuthUserRepository : Application() {
     private var errorLiveData : MutableLiveData<String> = MutableLiveData()
     private var profileUrl : MutableLiveData<String> = MutableLiveData<String>()
     private var uploadImageError : MutableLiveData<String> = MutableLiveData<String>()
+    private var centerList : MutableLiveData<MutableList<CenterInfoAdapter>> = MutableLiveData<MutableList<CenterInfoAdapter>>()
 
     init{
         if (firebaseAuth!!.currentUser != null) {
@@ -163,6 +168,29 @@ class AuthUserRepository : Application() {
             }
     }
 
+    fun getAllCenters(){
+
+        Firebase.database.getReference("centers").addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val centerDataList :MutableList<CenterInfoAdapter> = mutableListOf()
+                for(data in snapshot.children){
+
+                    val singleData = data.getValue(CenterInfoAdapter::class.java)
+
+                    singleData?.let {
+                        centerDataList.add(it)
+                        Log.d("Ankit is great", "onDataChange: ${it.slotsAvailable}")
+                    }
+                }
+                centerList.postValue(centerDataList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+
+        })
+
+    }
 
     fun logOut() {
             firebaseAuth!!.signOut()
@@ -197,4 +225,12 @@ class AuthUserRepository : Application() {
         return uploadImageError
     }
 
+    fun getCenterList() : MutableLiveData<MutableList<CenterInfoAdapter>> = centerList
+
 }
+
+
+
+
+
+

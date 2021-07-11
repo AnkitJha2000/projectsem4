@@ -3,7 +3,8 @@ package com.example.projectsem4.ViewModels
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.adapters.CenterInfoAdapter
+import com.example.projectsem4.repository.AuthUserRepository
 import com.example.projectsem4.adapters.UserAdapter
 import com.google.firebase.auth.FirebaseUser
 
@@ -14,6 +15,7 @@ class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
     private var loggedOutLiveData: MutableLiveData<Boolean>? = authUserRepository.getLoggedOutLiveData()
     private var userInfoLivaData : MutableLiveData<UserAdapter> = authUserRepository.getUserInfoLiveData()
     private var errorLiveData : MutableLiveData<String> = authUserRepository.getErrorLiveData()
+    private var centerList : MutableLiveData<MutableList<CenterInfoAdapter>> = authUserRepository.getCenterList()
 
     fun login(email: String, password: String) {
         repository.login(email, password)
@@ -70,5 +72,10 @@ class FirebaseAuthViewModel(val repository: AuthUserRepository) : ViewModel() {
         return authUserRepository.getUploadImageError()
     }
 
+    fun getCenterList() : MutableLiveData<MutableList<CenterInfoAdapter>> = authUserRepository.getCenterList()
+
+    fun loadCenterList(){
+        authUserRepository.getAllCenters()
+    }
 }
 

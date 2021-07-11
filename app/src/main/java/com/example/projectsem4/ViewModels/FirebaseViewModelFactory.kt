@@ -2,8 +2,7 @@ package com.example.projectsem4.ViewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.projectsem4.activities.repository.AuthUserRepository
-import com.google.firebase.auth.FirebaseAuth
+import com.example.projectsem4.repository.AuthUserRepository
 import java.lang.IllegalArgumentException
 
 class FirebaseViewModelFactory(private val repository: AuthUserRepository) : ViewModelProvider.Factory {

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -14,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityParentEditDetailsPageBinding
 import com.squareup.picasso.Picasso
 

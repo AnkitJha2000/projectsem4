@@ -41,8 +41,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Hospital Name"
-            android:id="@+id/signupname"
+            android:hint="Center Name"
+            android:id="@+id/adminSignUpCenterName"
             android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -58,30 +58,30 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mobile Number"
-            android:id="@+id/signupmobile"
+            android:hint="Location"
+            android:id="@+id/adminSignUpLocation"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@id/signupname"
+            android:layout_below="@id/adminSignUpCenterName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="20sp"
-                android:inputType="phone"
+                android:inputType="textMultiLine"
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Hospital Email ID"
-            android:id="@+id/signupemail"
+            android:id="@+id/adminSignUpEmail"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@id/signupmobile"
+            android:layout_below="@id/adminSignUpLocation"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -97,11 +97,11 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             app:passwordToggleEnabled="true"
-            android:id="@+id/signuppassword"
+            android:id="@+id/adminSignUpPassword"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_below="@id/signupemail"
+            android:layout_below="@id/adminSignUpEmail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
@@ -113,10 +113,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/signupcreatebtn"
+            android:id="@+id/adminSignUpCreateBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signuppassword"
+            android:layout_below="@id/adminSignUpPassword"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -124,11 +124,11 @@
             android:inputType="text"
             />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signuptologin"
+            android:id="@+id/adminSignUpLoginToSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_below="@id/signupcreatebtn"
+            android:layout_below="@id/adminSignUpCreateBtn"
             android:gravity="center"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"

@@ -8,11 +8,9 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
-import com.example.projectsem4.activities.repository.AuthUserRepository
 import com.example.projectsem4.application.VaccinationApplication
 
 class SplashScreen : AppCompatActivity() {

@@ -2,7 +2,7 @@ package com.example.projectsem4.application
 
 import android.app.Application
 import android.util.Log
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.repository.AuthUserRepository
 
 class VaccinationApplication : Application() {
 

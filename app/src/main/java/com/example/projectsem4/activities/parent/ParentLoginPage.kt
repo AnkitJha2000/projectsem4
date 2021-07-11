@@ -1,19 +1,16 @@
 package com.example.projectsem4.activities.parent
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.MainActivity
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityParentLoginPageBinding
-import com.google.firebase.database.core.Tag
 
 class ParentLoginPage : AppCompatActivity() {
     private lateinit var binding : ActivityParentLoginPageBinding

@@ -8,9 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.ViewModels.FirebaseViewModelFactory
 import com.example.projectsem4.activities.MainActivity
-import com.example.projectsem4.activities.repository.AuthUserRepository
+import com.example.projectsem4.repository.AuthUserRepository
 import com.example.projectsem4.databinding.ActivityAdminLoginPageBinding
-import com.google.android.gms.auth.api.Auth
 
 class AdminLoginPage : AppCompatActivity() {
     private lateinit var binding : ActivityAdminLoginPageBinding
