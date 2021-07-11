@@ -48,7 +48,7 @@ class CenterRecyclerViewAdapter() : RecyclerView.Adapter<CenterRecyclerViewAdapt
         }
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(getContext() , AdminLoginPage::class.java)
+
         }
 
     }
