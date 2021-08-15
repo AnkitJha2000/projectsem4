@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.parent.ParentSlotsInfo">
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slot booked : Center 0\n     Gurgaon,Haryana\n          22-08-2021"
+        android:textSize="30sp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
+        android:id="@+id/tvslotsinfo1"
+        />
+
+    <ImageView
+        android:id="@+id/ivslotsinfo1"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/tvslotsinfo1"
+        android:layout_marginTop="90dp"
+        android:src="@drawable/washhands" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivslotsinfo1"
+        android:layout_marginTop="90dp"
+        android:textColor="@color/black"
+        android:text="Let's fight together with us!! We are in this together.\n Please don't leave your slots unbooked and reach center from 9:00 AM till 4:00 PM"
+        android:textSize="20sp"
+        />
+
+</RelativeLayout>

@@ -15,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectSem4"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.parent.ParentEditDetailsPage"></activity>
+        <activity
+            android:name=".activities.parent.ParentSlotsInfo"
+            android:exported="true" />
+        <activity
+            android:name=".activities.parent.ParentSlotBookingPage"
+            android:exported="true" />
+        <activity android:name=".activities.parent.ParentEditDetailsPage" />
         <activity android:name=".activities.parent.ParentSignUpPage" />
         <activity android:name=".activities.admin.AdminSignUpPage" />
         <activity android:name=".activities.admin.AdminLoginPage" />

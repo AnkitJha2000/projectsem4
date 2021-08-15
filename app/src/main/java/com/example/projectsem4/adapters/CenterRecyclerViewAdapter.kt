@@ -1,24 +1,19 @@
 package com.example.projectsem4.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projectsem4.R
-import com.example.projectsem4.activities.admin.AdminLoginPage
-import com.example.projectsem4.activities.admin.AdminSignUpPage
-import java.security.AccessController.getContext
+import com.example.projectsem4.activities.parent.fragments.ParentNotifierPage
 
 class CenterRecyclerViewAdapter() : RecyclerView.Adapter<CenterRecyclerViewAdapter.CenterViewHolder>() {
 
-    inner class CenterViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    inner class CenterViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 
         val centername = itemView.findViewById<TextView>(R.id.itemCenterName)
         val centerLocation = itemView.findViewById<TextView>(R.id.itemCenterLocation)
@@ -26,6 +21,7 @@ class CenterRecyclerViewAdapter() : RecyclerView.Adapter<CenterRecyclerViewAdapt
         val slotsAvailable = itemView.findViewById<TextView>(R.id.itemSlotsAvailable)
 
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
         return CenterViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_notifier_centers,parent , false))
@@ -44,13 +40,8 @@ class CenterRecyclerViewAdapter() : RecyclerView.Adapter<CenterRecyclerViewAdapt
             centerName.text = data.centerName
             centerLocation.text = data.centerLocation
             cost.text = data.cost
-            slotsAvailable.text = data.slotsAvailable
+            slotsAvailable.text ="Slots available :" + data.slotsAvailable
         }
-
-        holder.itemView.setOnClickListener {
-
-        }
-
     }
 
     private val differCallBack = object : DiffUtil.ItemCallback<CenterInfoAdapter>(){
@@ -66,10 +57,6 @@ class CenterRecyclerViewAdapter() : RecyclerView.Adapter<CenterRecyclerViewAdapt
     }
 
     val differ= AsyncListDiffer(this,differCallBack)
-
-    interface OnItemClickListener{
-        fun OnItemClick(position: Int)
-    }
 
     override fun getItemCount(): Int {
         return differ.currentList.size

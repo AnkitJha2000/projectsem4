@@ -1,9 +1,11 @@
 package com.example.projectsem4.activities.parent.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.projectsem4.R
@@ -37,6 +39,15 @@ class ParentHomePage : Fragment() {
         binding.parentHomeViewPager.adapter = ParentHomePageViewPagerAdapter(imageList)
         binding.indicator.setViewPager(binding.parentHomeViewPager)
 
-    }
+        binding.ivQuesYes.setOnClickListener{
+            binding.ivQues.visibility = View.GONE
+            binding.ivQuesNo.visibility = View.GONE
+            binding.ivQuesYes.visibility = View.GONE
+            binding.tvques.visibility = View.GONE
+        }
 
+        binding.ivQuesNo.setOnClickListener{
+            Toast.makeText(context, "Please get vaccinated !! Hurry, Go to vaccine section book your vaccine!!", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

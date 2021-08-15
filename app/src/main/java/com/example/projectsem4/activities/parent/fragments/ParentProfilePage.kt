@@ -11,6 +11,7 @@ import com.example.projectsem4.R
 import com.example.projectsem4.ViewModels.FirebaseAuthViewModel
 import com.example.projectsem4.activities.LoginSignUpPage
 import com.example.projectsem4.activities.parent.ParentEditDetailsPage
+import com.example.projectsem4.activities.parent.ParentSlotsInfo
 import com.example.projectsem4.databinding.FragmentParentProfilePageBinding
 import com.squareup.picasso.Picasso
 
@@ -56,6 +57,10 @@ class ParentProfilePage : Fragment() {
 
         binding.parentProfileEditBtn.setOnClickListener{
             startActivity(Intent(activity , ParentEditDetailsPage::class.java))
+        }
+
+        binding.parentSlotInfo.setOnClickListener{
+            startActivity(Intent(activity , ParentSlotsInfo::class.java))
         }
 
     }
